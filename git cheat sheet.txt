@@ -1,0 +1,9 @@
+git add .
+
+git commit -a -m "Add your message here"
+
+git pull
+
+// If a merge is required, press ":" then "x" then "Enter"
+
+git push

@@ -25,5 +25,7 @@ const realEstates = [
 ];
 
 const smallDeals = stocks.concat(realEstates);
-
 console.log('Small Deals:', smallDeals);
+
+const ratRace = new RatRace();
+console.log(ratRace);

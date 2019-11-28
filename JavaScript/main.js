@@ -38,14 +38,12 @@ function startGame() {
 function takeTurn() {
     var roll = getDieRoll() + getDieRoll();
 
-    var rollInfo = document.createElement('div');
-    rollInfo.setAttribute('id', 'infoBox');
-    rollInfo.innerText = 'You rolled a: ' + roll;
-    document.body.appendChild(rollInfo);
+    var infoBox = new InfoBox({
+        title: 'You rolled!',
+        description: 'You the dice and rolled a: ' + roll
+    });
 
-    setTimeout(() => {
-        document.body.removeChild(rollInfo);
-    }, 1500);
+    document.body.appendChild(infoBox.element);
 }
 
 function getDieRoll() {

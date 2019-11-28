@@ -10,7 +10,7 @@
     clear: both;
 }
 
-#infoBox {
+.infoBox {
     border: 4px solid black;
     background-color: white;
     position: fixed;
@@ -19,6 +19,13 @@
     transform: translate(-50%, -50%);
     font-size: 2em;
     padding: 5px;
+}
+
+.infoBoxTitle {
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    font-size: 1.5em;
 }
 
 button {

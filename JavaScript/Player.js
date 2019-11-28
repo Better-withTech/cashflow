@@ -1,6 +1,6 @@
-const Player = function () {
-    this.name = 'Kyle';
+const Player = function (name) {
+    this.name = name;
     this.profession = 'Software Engineer';
-    this.money = 0;
-    this.onSpace = -1;
+    this.money = 10000;
+    this.space = -1;
 };

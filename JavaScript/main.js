@@ -41,20 +41,48 @@ console.log('Small Deals:', smallDeals);
 const ratRace = new RatRace();
 console.log(ratRace);
 
+var playerIsMade = false;
+var player;
+
 function startGame() {
     // alert('Sheila made this cute little button! Good Luck!!');
-    takeTurn();
+    createPlayer();
 }
 
-function takeTurn() {
-    var roll = getDieRoll() + getDieRoll();
-
+function createPlayer() {
     var infoBox = new InfoBox({
-        title: 'You rolled!',
-        description: 'You the dice and rolled a: ' + roll
+        title: 'Welcome to Cashflow!',
+        description: 'What is your name?',
+        requiresInput: true,
+        action: function () {
+            var name = document.getElementById('infoBoxInput').value;
+            player = new Player(name);
+            console.log(player);
+            playerIsMade = true;
+        }
     });
 
     document.body.appendChild(infoBox.element);
+}
+
+function takeTurn() {
+    if (playerIsMade) {
+        var roll = getDieRoll();
+
+        var infoBox = new InfoBox({
+            title: 'You rolled!',
+            description: 'You the dice and rolled a: ' + roll
+        });
+
+        document.body.appendChild(infoBox.element);
+    } else {
+        var infoBox = new InfoBox({
+            title: 'No Player!',
+            description: 'You must create a Player first before playing!'
+        });
+
+        document.body.appendChild(infoBox.element);
+    }
 }
 
 function getDieRoll() {

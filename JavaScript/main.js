@@ -31,5 +31,21 @@ const ratRace = new RatRace();
 console.log(ratRace);
 
 function startGame() {
-    alert('Sheila made this cute little button! Good Luck!!');
+    // alert('Sheila made this cute little button! Good Luck!!');
+    takeTurn();
+}
+
+function takeTurn() {
+    var roll = getDieRoll() + getDieRoll();
+
+    var infoBox = new InfoBox({
+        title: 'You rolled!',
+        description: 'You the dice and rolled a: ' + roll
+    });
+
+    document.body.appendChild(infoBox.element);
+}
+
+function getDieRoll() {
+    return Math.floor(Math.random() * 6 + 1);
 }

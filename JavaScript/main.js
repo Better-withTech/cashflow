@@ -69,12 +69,14 @@ function takeTurn() {
     if (playerIsMade) {
         var roll = getDieRoll();
 
-        var infoBox = new InfoBox({
+        player.space = (player.space + roll) % ratRace.spaces.length;
+
+        var rollInfoBox = new InfoBox({
             title: 'You rolled!',
-            description: 'You the dice and rolled a: ' + roll
+            description: 'You rolled the die and rolled a: ' + roll + '. You are on the space: ' + ratRace.spaces[player.space].name + '!'
         });
 
-        document.body.appendChild(infoBox.element);
+        document.body.appendChild(rollInfoBox.element);
     } else {
         var infoBox = new InfoBox({
             title: 'No Player!',

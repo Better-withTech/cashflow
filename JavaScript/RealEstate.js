@@ -6,4 +6,5 @@ const RealEstate = function (details) {
     this.downPay = details.downPay;
     this.cashflow = details.cashflow;
     this.ROI = details.ROI;
+    this.sellRange = details.sellRange;
 };

@@ -27,3 +27,7 @@ const realEstates = [
 const smallDeals = stocks.concat(realEstates);
 
 console.log('Small Deals:', smallDeals);
+
+function startGame() {
+    alert('Sheila made this cute little button! Good Luck!!');
+}

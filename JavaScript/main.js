@@ -27,17 +27,9 @@ const realEstates = [
 const smallDeals = stocks.concat(realEstates);
 console.log('Small Deals:', smallDeals);
 
-<<<<<<< HEAD
-function startGame() {
-    alert('Sheila made this cute little button! Good Luck!!');
-}
-const ratRace = new RatRace();
-console.log(ratRace);
-=======
 const ratRace = new RatRace();
 console.log(ratRace);
 
 function startGame() {
     alert('Sheila made this cute little button! Good Luck!!');
 }
->>>>>>> 0ca5bc6cfa54c32c2bdc75fef651aa1204efb713

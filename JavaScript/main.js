@@ -1,5 +1,7 @@
 console.log('Hello Cashflow!');
 
+const randomTool = new RandomTool();
+
 const stocks = [
     new Stock({
         name: 'Stock - MYT4U Electronics Co.',
@@ -12,6 +14,12 @@ const stocks = [
     })
 ];
 
+const REAL_ESTATE_TYPE = {
+    HOUSE: 1,
+    CONDO: 2,
+    LAND: 3
+};
+
 const realEstates = [
     new RealEstate({
         name: '10 Acres Raw Land',
@@ -21,7 +29,8 @@ const realEstates = [
         downPay: 5000,
         cashflow: 0,
         ROI: '0%',
-        sellRange: '??'
+        sellRange: '??',
+        type: REAL_ESTATE_TYPE.LAND
     }),
     new RealEstate({
         name: 'You Find a Great Deal!',
@@ -31,9 +40,30 @@ const realEstates = [
         downPay: 2000,
         cashflow: 250,
         ROI: '150%',
-        sellRange: '$65,000 to $135,000'
+        sellRange: '$65,000 to $135,000',
+        type: REAL_ESTATE_TYPE.HOUSE,
+        beds: 3,
+        baths: 2
+    }),
+    new RealEstate({
+        name: 'Condo For Sale - 2Br/1Ba',
+        description: 'Parents selling 2/1 condo used ...',
+        cost: 40000,
+        mortgage: 36000,
+        downPay: 4000,
+        cashflow: 140,
+        ROI: '42%',
+        sellRange: '$45,000 to $65,000',
+        type: REAL_ESTATE_TYPE.CONDO,
+        beds: 2,
+        baths: 1
     })
 ];
+
+const numOfRandomRealEstates = 20;
+for (var i = 0; i < numOfRandomRealEstates; i++) {
+    realEstates.push(new RealEstate({ isRandom: true }));
+}
 
 const smallDeals = stocks.concat(realEstates);
 console.log('Small Deals:', smallDeals);
@@ -92,5 +122,5 @@ function takeTurn() {
 }
 
 function getDieRoll() {
-    return Math.floor(Math.random() * 6 + 1);
+    return randomTool.getRandomIntInRange(1, 6);
 }

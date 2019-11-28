@@ -69,7 +69,11 @@ function takeTurn() {
     if (playerIsMade) {
         var roll = getDieRoll();
 
-        player.space = (player.space + roll) % ratRace.spaces.length;
+        player.space += roll;
+        player.space %= ratRace.spaces.length;
+
+        var space = ratRace.spaces[player.space];
+        space.action();
 
         var rollInfoBox = new InfoBox({
             title: 'You rolled!',

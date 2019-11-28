@@ -20,7 +20,18 @@ const realEstates = [
         mortgage: 0,
         downPay: 5000,
         cashflow: 0,
-        ROI: '0%'
+        ROI: '0%',
+        sellRange: '??'
+    }),
+    new RealEstate({
+        name: 'You Find a Great Deal!',
+        description: 'Company bought ...',
+        cost: 45000,
+        mortgage: 43000,
+        downPay: 2000,
+        cashflow: 250,
+        ROI: '150%',
+        sellRange: '$65,000 to $135,000'
     })
 ];
 

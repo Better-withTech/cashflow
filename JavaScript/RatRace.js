@@ -3,6 +3,19 @@ const RatRace = function () {
         name: 'Opportunity - Big / Small Deal',
         action: function () {
             console.log('Landed on the Opportunity space!');
+
+            var card = smallDeals[Math.floor(Math.random() * smallDeals.length)];
+            console.log('This card was drwn', card);
+
+            var infoBox = new InfoBox({
+                title: 'You received a Small Deal!',
+                description: 'This is where info about the small deal will go.',
+                action: function () {
+                    console.log('The button was clicked!');
+                }
+            });
+
+            document.body.appendChild(infoBox.element);
         }
     });
 

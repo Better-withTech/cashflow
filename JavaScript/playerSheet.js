@@ -463,6 +463,41 @@ function sellBusiness(element, sellAmount, cashflow) {
     }
 }
 
+function addBankLoan() {
+    var savings = getAmount('savings');
+    savings += 1000;
+    setAmount('savings', savings);
+
+    var bankLoanLiability = getAmount('bankLoanLiability');
+    bankLoanLiability += 1000;
+    setAmount('bankLoanLiability', bankLoanLiability);
+
+    var bankLoanExpense = getAmount('bankLoanExpense');
+    bankLoanExpense += 100;
+    setAmount('bankLoanExpense', bankLoanExpense);
+
+    recalculate();
+}
+
+function payBankLoan() {
+    var savings = getAmount('savings');
+    var bankLoanLiability = getAmount('bankLoanLiability');
+
+    if (savings >= 1000 && bankLoanLiability > 0) {
+        savings -= 1000;
+        setAmount('savings', savings);
+
+        bankLoanLiability -= 1000;
+        setAmount('bankLoanLiability', bankLoanLiability);
+
+        var bankLoanExpense = getAmount('bankLoanExpense');
+        bankLoanExpense -= 100;
+        setAmount('bankLoanExpense', bankLoanExpense);
+
+        recalculate();
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);

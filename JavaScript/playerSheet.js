@@ -193,6 +193,8 @@ function stocksBoxClose() {
     var name = document.getElementById('stocksBoxName').value;
     var price = document.getElementById('stocksBoxPrice').value;
     var units = document.getElementById('stocksBoxUnits').value;
+    var income = document.getElementById('stocksBoxIncome').value;
+    income = income === '' ? '0' : income;
 
     if (name === '') {
         alert('ERROR!\n\n\"' + name + '\" is not a valid input!');
@@ -200,20 +202,29 @@ function stocksBoxClose() {
         alert('ERROR!\n\n\"' + price + '\" is not a valid input!');
     } else if (units === '' || isNaN(units) || parseInt(units) < 0) {
         alert('ERROR!\n\n\"' + units + '\" is not a valid input!');
+    } else if (isNaN(income) || parseInt(income) < 0) {
+        alert('ERROR!\n\n\"' + income + '\" is not a valid input!');
     } else {
-        addStock('Stock', name, parseInt(price), parseInt(units));
+        addStock(name, parseInt(price), parseInt(units), parseInt(income));
         document.getElementById('stocksBox').style.display = 'none';
         document.getElementById('stocksBoxName').value = '';
         document.getElementById('stocksBoxPrice').value = '';
         document.getElementById('stocksBoxUnits').value = '';
+        document.getElementById('stocksBoxIncome').value = '';
     }
 }
 
-function addStock(type, name, price, units) {
+function addStock(name, price, units, income) {
     var cost = price * units;
     var savings = getAmount('savings');
     savings -= cost;
     setAmount('savings', savings);
+
+    var dividendsInterestIncome = getAmount('dividendsInterestIncome');
+    dividendsInterestIncome += income;
+    setAmount('dividendsInterestIncome', dividendsInterestIncome);
+
+    recalculate();
 
     var stocksTable = document.getElementById('stocksTable');
 
@@ -228,7 +239,7 @@ function addStock(type, name, price, units) {
     var buttonCol = document.createElement('td');
     var button = document.createElement('button');
     button.addEventListener('click', () => {
-        removeStock(row, name, units);
+        removeStock(row, name, units, income);
     });
     button.innerText = 'Sell';
     buttonCol.appendChild(button);
@@ -236,18 +247,23 @@ function addStock(type, name, price, units) {
     row.appendChild(nameCol);
     row.appendChild(unitsCol);
 
-    if (type === 'Stock') {
+    if (income <= 0) {
         var splitButtonCol = document.createElement('td');
 
         var splitButton = document.createElement('button');
         splitButton.addEventListener('click', () => {
-            // Do a split
+            var units = parseInt(unitsCol.innerText);
+            units *= 2;
+            unitsCol.innerText = units;
         });
         splitButton.innerText = 'Split';
 
         var reverseSplitButton = document.createElement('button');
         reverseSplitButton.addEventListener('click', () => {
-            // Do a reverse split
+            var units = parseInt(unitsCol.innerText);
+            units /= 2;
+            units = Math.floor(units);
+            unitsCol.innerText = units;
         });
         reverseSplitButton.innerText = 'Reverse Split';
 
@@ -255,6 +271,12 @@ function addStock(type, name, price, units) {
         splitButtonCol.appendChild(reverseSplitButton);
 
         row.appendChild(splitButtonCol);
+    } else {
+        var incomeCol = document.createElement('td');
+        incomeCol.setAttribute('class', 'money');
+        setAmount(incomeCol, income);
+
+        row.appendChild(incomeCol);
     }
 
     row.appendChild(buttonCol);
@@ -262,7 +284,7 @@ function addStock(type, name, price, units) {
     stocksTable.appendChild(row);
 }
 
-function removeStock(element, name, units) {
+function removeStock(element, name, units, income) {
     var infoBox = document.createElement('div');
     infoBox.setAttribute('class', 'infoBox');
 
@@ -278,7 +300,7 @@ function removeStock(element, name, units) {
 
     var button = document.createElement('button');
     button.addEventListener('click', () => {
-        var isSuccessful = sellStock(element, input.value, units);
+        var isSuccessful = sellStock(element, input.value, units, income);
         if (isSuccessful) {
             document.body.removeChild(infoBox);
         }
@@ -293,7 +315,7 @@ function removeStock(element, name, units) {
     document.body.appendChild(infoBox);
 }
 
-function sellStock(element, price, units) {
+function sellStock(element, price, units, income) {
     if (price === '' || isNaN(price) || parseInt(price) < 0) {
         alert('ERROR!\n\n\"' + price + '\" is not a valid input!');
 
@@ -304,6 +326,12 @@ function sellStock(element, price, units) {
         var savings = getAmount('savings');
         savings += sellAmount;
         setAmount('savings', savings);
+
+        var dividendsInterestIncome = getAmount('dividendsInterestIncome');
+        dividendsInterestIncome -= income;
+        setAmount('dividendsInterestIncome', dividendsInterestIncome);
+
+        recalculate();
 
         element.style.display = 'none';
 
@@ -327,7 +355,7 @@ function setAmount(id, amount) {
 
 function recalculate() {
     var totalExpenses = getAmount('taxExpense') + getAmount('housingExpense') + getAmount('schoolExpense') + getAmount('carExpense') + getAmount('creditCardExpense') + getAmount('retailExpense') + getAmount('otherExpense') + getAmount('childExpense') + getAmount('bankLoanExpense');
-    var passiveIncome = getAmount('interest') + getAmount('dividends') + getAmount('realEstateIncome') + getAmount('businessesIncome');
+    var passiveIncome = getAmount('dividendsInterestIncome') + getAmount('realEstateIncome') + getAmount('businessesIncome');
     var totalIncome = passiveIncome + getAmount('salary');
     var cashflow = totalIncome - totalExpenses;
 

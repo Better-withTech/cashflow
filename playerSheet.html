@@ -46,12 +46,8 @@
                 <td class="money" id="salary">$0</td>
             </tr>
             <tr>
-                <td>Interest:</td>
-                <td class="money" id="interest">$0</td>
-            </tr>
-            <tr>
-                <td>Dividends:</td>
-                <td class="money" id="dividends">$0</td>
+                <td>Dividends / Interest Income:</td>
+                <td class="money" id="dividendsInterestIncome">$0</td>
             </tr>
             <tr>
                 <td>Real Estate Total:</td>
@@ -141,7 +137,7 @@
             <tr>
                 <td>Name</td>
                 <td>Amount</td>
-                <td>Interest / Splits</td>
+                <td>Income / Splits</td>
                 <td><button onclick="stocksBoxOpen()">Buy</button></td>
             </tr>
         </table>
@@ -231,6 +227,8 @@
         <input type="text" id="stocksBoxPrice"><br>
         How many units would you like?
         <input type="text" id="stocksBoxUnits"><br>
+        What is the income per month?
+        <input type="text" id="stocksBoxIncome"><br>
         <button onclick="stocksBoxClose()">Buy</button>
     </div>
 </body>

@@ -463,6 +463,25 @@ function sellBusiness(element, sellAmount, cashflow) {
     }
 }
 
+function haveBaby() {
+    var babies = document.getElementById('babies').innerText;
+    babies = parseInt(babies);
+
+    if (babies < 3) {
+        babies++;
+        document.getElementById('babies').innerText = babies;
+
+        var childExpense = getAmount('childExpense');
+        var perChildExpense = getAmount('perChildExpense');
+        childExpense += perChildExpense;
+        setAmount('childExpense', childExpense);
+
+        recalculate();
+    } else {
+        alert('You already have the max amount of babies!');
+    }
+}
+
 function addBankLoan() {
     var savings = getAmount('savings');
     savings += 1000;

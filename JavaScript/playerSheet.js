@@ -532,6 +532,71 @@ function payBankLoan() {
     }
 }
 
+function payRetail() {
+    var savings = getAmount('savings');
+    var retailLiability = getAmount('retailLiability');
+
+    if (savings >= retailLiability) {
+        savings -= retailLiability;
+        setAmount('savings', savings);
+        setAmount('retailLiability', 0);
+        setAmount('retailExpense', 0);
+        recalculate();
+    }
+}
+
+function payCreditCard() {
+    var savings = getAmount('savings');
+    var creditCardLiability = getAmount('creditCardLiability');
+
+    if (savings >= creditCardLiability) {
+        savings -= creditCardLiability;
+        setAmount('savings', savings);
+        setAmount('creditCardLiability', 0);
+        setAmount('creditCardExpense', 0);
+        recalculate();
+    }
+}
+
+function payCar() {
+    var savings = getAmount('savings');
+    var carLiability = getAmount('carLiability');
+
+    if (savings >= carLiability) {
+        savings -= carLiability;
+        setAmount('savings', savings);
+        setAmount('carLiability', 0);
+        setAmount('carExpense', 0);
+        recalculate();
+    }
+}
+
+function paySchool() {
+    var savings = getAmount('savings');
+    var schoolLiability = getAmount('schoolLiability');
+
+    if (savings >= schoolLiability) {
+        savings -= schoolLiability;
+        setAmount('savings', savings);
+        setAmount('schoolLiability', 0);
+        setAmount('schoolExpense', 0);
+        recalculate();
+    }
+}
+
+function payHousing() {
+    var savings = getAmount('savings');
+    var housingLiability = getAmount('housingLiability');
+
+    if (savings >= housingLiability) {
+        savings -= housingLiability;
+        setAmount('savings', savings);
+        setAmount('housingLiability', 0);
+        setAmount('housingExpense', 0);
+        recalculate();
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);

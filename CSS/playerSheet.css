@@ -1,0 +1,32 @@
+body {
+    font-size: 2em;
+    background-color: black;
+    color: white;
+}
+
+td {
+    border: 1px solid gray;
+}
+
+table {
+    width: 100%;
+}
+
+button {
+    font-size: 1em;
+    margin: 4px;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.section {
+    border: 2px solid white;
+    width: 475px;
+    padding: 4px;
+    margin: 4px;
+    float: left;
+}

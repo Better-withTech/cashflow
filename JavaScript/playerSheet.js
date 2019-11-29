@@ -339,6 +339,130 @@ function sellStock(element, price, units, income) {
     }
 }
 
+function businessBoxOpen() {
+    document.getElementById('businessBox').style.display = 'block';
+}
+
+function businessBoxClose() {
+    var name = document.getElementById('businessBoxName').value;
+    var liability = document.getElementById('businessBoxLiability').value;
+    var downPay = document.getElementById('businessBoxDownPay').value;
+    var cashflow = document.getElementById('businessBoxCashFlow').value;
+
+    if (name === '') {
+        alert('ERROR!\n\n\"' + name + '\" is not a valid input!');
+    } else if (liability === '' || isNaN(liability) || parseInt(liability) < 0) {
+        alert('ERROR!\n\n\"' + liability + '\" is not a valid input!');
+    } else if (downPay === '' || isNaN(downPay) || parseInt(downPay) < 0) {
+        alert('ERROR!\n\n\"' + downPay + '\" is not a valid input!');
+    } else if (cashflow === '' || isNaN(cashflow)) {
+        alert('ERROR!\n\n\"' + cashflow + '\" is not a valid input!');
+    } else {
+        addBusiness(name, parseInt(liability), parseInt(downPay), parseInt(cashflow));
+        document.getElementById('businessBox').style.display = 'none';
+        document.getElementById('businessBoxName').value = '';
+        document.getElementById('businessBoxLiability').value = '';
+        document.getElementById('businessBoxDownPay').value = '';
+        document.getElementById('businessBoxCashFlow').value = '';
+    }
+}
+
+function addBusiness(name, liability, downPay, cashflow) {
+    var savings = getAmount('savings');
+    savings -= downPay;
+    setAmount('savings', savings);
+
+    var businessesIncome = getAmount('businessesIncome');
+    businessesIncome += cashflow;
+    setAmount('businessesIncome', businessesIncome);
+
+    recalculate();
+
+    var businessesTable = document.getElementById('businessesTable');
+
+    var row = document.createElement('tr');
+
+    var nameCol = document.createElement('td');
+    nameCol.innerText = name;
+
+    var incomeCol = document.createElement('td');
+    incomeCol.setAttribute('class', 'money');
+    setAmount(incomeCol, cashflow);
+
+    var liabilityCol = document.createElement('td');
+    liabilityCol.setAttribute('class', 'money');
+    setAmount(liabilityCol, liability);
+
+    var buttonCol = document.createElement('td');
+    var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        removeBusiness(row, name, cashflow);
+    });
+    button.innerText = 'Sell';
+    buttonCol.appendChild(button);
+
+    row.appendChild(nameCol);
+    row.appendChild(incomeCol);
+    row.appendChild(liabilityCol);
+    row.appendChild(buttonCol);
+
+    businessesTable.appendChild(row);
+}
+
+function removeBusiness(element, name, cashflow) {
+    var infoBox = document.createElement('div');
+    infoBox.setAttribute('class', 'infoBox');
+
+    var header = document.createElement('div');
+    header.setAttribute('class', 'header');
+    header.innerText = 'Sell ' + name;
+
+    var description = document.createElement('div');
+    description.innerText = 'How much are you selling the business for?';
+
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+
+    var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        var isSuccessful = sellBusiness(element, input.value, cashflow);
+        if (isSuccessful) {
+            document.body.removeChild(infoBox);
+        }
+    });
+    button.innerText = 'Sell';
+
+    infoBox.appendChild(header);
+    infoBox.appendChild(description);
+    infoBox.appendChild(input);
+    infoBox.appendChild(button);
+
+    document.body.appendChild(infoBox);
+}
+
+function sellBusiness(element, sellAmount, cashflow) {
+    if (sellAmount === '' || isNaN(sellAmount) || parseInt(sellAmount) < 0) {
+        alert('ERROR!\n\n\"' + sellAmount + '\" is not a valid input!');
+
+        return false;
+    } else {
+        sellAmount = parseInt(sellAmount);
+        var savings = getAmount('savings');
+        savings += sellAmount;
+        setAmount('savings', savings);
+
+        var businessesIncome = getAmount('businessesIncome');
+        businessesIncome -= cashflow;
+        setAmount('businessesIncome', businessesIncome);
+
+        recalculate();
+
+        element.style.display = 'none';
+
+        return true;
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);

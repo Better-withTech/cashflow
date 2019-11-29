@@ -144,11 +144,12 @@
     </span>
     <span class="section">
         <div class="header">Businesses</div>
-        <table>
+        <table id="businessesTable">
             <tr>
-                <td>Type</td>
+                <td>Name</td>
                 <td>Income</td>
-                <td><button>Buy</button></td>
+                <td>Liability</td>
+                <td><button onclick="businessBoxOpen()">Buy</button></td>
             </tr>
         </table>
     </span>
@@ -220,7 +221,7 @@
     </div>
 
     <div class="infoBox" id="stocksBox" style="display: none;">
-        <div class="header">Stocks / Mutal's / CDs</div>
+        <div class="header">Buy Stocks / Mutal's / CDs</div>
         What is the name of the Stocks / Mutal's / CDs?
         <input type="text" id="stocksBoxName"><br>
         How much per unit?
@@ -230,6 +231,19 @@
         What is the income per month?
         <input type="text" id="stocksBoxIncome"><br>
         <button onclick="stocksBoxClose()">Buy</button>
+    </div>
+
+    <div class="infoBox" id="businessBox" style="display: none;">
+        <div class="header">Buy Buisness</div>
+        What is the name of the buisness?
+        <input type="text" id="businessBoxName"><br>
+        How much is the liability?
+        <input type="text" id="businessBoxLiability"><br>
+        How much is the Down Payment?
+        <input type="text" id="businessBoxDownPay"><br>
+        How much is the Cash Flow?
+        <input type="text" id="businessBoxCashFlow"><br>
+        <button onclick="businessBoxClose()">Buy</button>
     </div>
 </body>
 

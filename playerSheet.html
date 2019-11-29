@@ -137,11 +137,12 @@
     </span>
     <span class="section">
         <div class="header">Stocks / Mutal's / CDs</div>
-        <table>
+        <table id="stocksTable">
             <tr>
                 <td>Name</td>
-                <td>Shares</td>
-                <td><button>Buy</button></td>
+                <td>Amount</td>
+                <td>Interest / Splits</td>
+                <td><button onclick="stocksBoxOpen()">Buy</button></td>
             </tr>
         </table>
     </span>
@@ -195,7 +196,7 @@
         <div class="header">Doodads</div>
         How much is your doodad?<br>
         <input type="text" id="doodadsBoxInput"><br>
-        <button onclick="doodadsBoxClose()">Submit</button>
+        <button onclick="doodadsBoxClose()">Purchase</button>
     </div>
 
     <div class="infoBox" id="realEstateBox" style="display: none;">
@@ -220,6 +221,17 @@
         Cash Flow: <input type="text" id="realEstateBoxCashFlow"><br>
 
         <button onclick="realEstateBoxClose()">Buy</button>
+    </div>
+
+    <div class="infoBox" id="stocksBox" style="display: none;">
+        <div class="header">Stocks / Mutal's / CDs</div>
+        What is the name of the Stocks / Mutal's / CDs?
+        <input type="text" id="stocksBoxName"><br>
+        How much per unit?
+        <input type="text" id="stocksBoxPrice"><br>
+        How many units would you like?
+        <input type="text" id="stocksBoxUnits"><br>
+        <button onclick="stocksBoxClose()">Buy</button>
     </div>
 </body>
 

@@ -185,6 +185,132 @@ function realEstateBoxGetType() {
     }
 }
 
+function stocksBoxOpen() {
+    document.getElementById('stocksBox').style.display = 'block';
+}
+
+function stocksBoxClose() {
+    var name = document.getElementById('stocksBoxName').value;
+    var price = document.getElementById('stocksBoxPrice').value;
+    var units = document.getElementById('stocksBoxUnits').value;
+
+    if (name === '') {
+        alert('ERROR!\n\n\"' + name + '\" is not a valid input!');
+    } else if (price === '' || isNaN(price) || parseInt(price) < 0) {
+        alert('ERROR!\n\n\"' + price + '\" is not a valid input!');
+    } else if (units === '' || isNaN(units) || parseInt(units) < 0) {
+        alert('ERROR!\n\n\"' + units + '\" is not a valid input!');
+    } else {
+        addStock('Stock', name, parseInt(price), parseInt(units));
+        document.getElementById('stocksBox').style.display = 'none';
+        document.getElementById('stocksBoxName').value = '';
+        document.getElementById('stocksBoxPrice').value = '';
+        document.getElementById('stocksBoxUnits').value = '';
+    }
+}
+
+function addStock(type, name, price, units) {
+    var cost = price * units;
+    var savings = getAmount('savings');
+    savings -= cost;
+    setAmount('savings', savings);
+
+    var stocksTable = document.getElementById('stocksTable');
+
+    var row = document.createElement('tr');
+
+    var nameCol = document.createElement('td');
+    nameCol.innerText = name;
+
+    var unitsCol = document.createElement('td');
+    unitsCol.innerText = units;
+
+    var buttonCol = document.createElement('td');
+    var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        removeStock(row, name, units);
+    });
+    button.innerText = 'Sell';
+    buttonCol.appendChild(button);
+
+    row.appendChild(nameCol);
+    row.appendChild(unitsCol);
+
+    if (type === 'Stock') {
+        var splitButtonCol = document.createElement('td');
+
+        var splitButton = document.createElement('button');
+        splitButton.addEventListener('click', () => {
+            // Do a split
+        });
+        splitButton.innerText = 'Split';
+
+        var reverseSplitButton = document.createElement('button');
+        reverseSplitButton.addEventListener('click', () => {
+            // Do a reverse split
+        });
+        reverseSplitButton.innerText = 'Reverse Split';
+
+        splitButtonCol.appendChild(splitButton);
+        splitButtonCol.appendChild(reverseSplitButton);
+
+        row.appendChild(splitButtonCol);
+    }
+
+    row.appendChild(buttonCol);
+
+    stocksTable.appendChild(row);
+}
+
+function removeStock(element, name, units) {
+    var infoBox = document.createElement('div');
+    infoBox.setAttribute('class', 'infoBox');
+
+    var header = document.createElement('div');
+    header.setAttribute('class', 'header');
+    header.innerText = 'Sell ' + name;
+
+    var description = document.createElement('div');
+    description.innerText = 'What is the cost per unit?';
+
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+
+    var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        var isSuccessful = sellStock(element, input.value, units);
+        if (isSuccessful) {
+            document.body.removeChild(infoBox);
+        }
+    });
+    button.innerText = 'Sell';
+
+    infoBox.appendChild(header);
+    infoBox.appendChild(description);
+    infoBox.appendChild(input);
+    infoBox.appendChild(button);
+
+    document.body.appendChild(infoBox);
+}
+
+function sellStock(element, price, units) {
+    if (price === '' || isNaN(price) || parseInt(price) < 0) {
+        alert('ERROR!\n\n\"' + price + '\" is not a valid input!');
+
+        return false;
+    } else {
+        price = parseInt(price);
+        var sellAmount = price * units;
+        var savings = getAmount('savings');
+        savings += sellAmount;
+        setAmount('savings', savings);
+
+        element.style.display = 'none';
+
+        return true;
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);

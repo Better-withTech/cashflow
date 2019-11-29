@@ -123,10 +123,9 @@
         <table id="realEstateTable">
             <tr>
                 <td>Type</td>
-                <td>Beds</td>
-                <td>Baths</td>
-                <td>Income</td>
+                <td>Cost</td>
                 <td>Mortgage</td>
+                <td>Cash Flow</td>
                 <td><button onclick="realEstateBoxOpen()">Buy</button></td>
             </tr>
         </table>
@@ -198,25 +197,20 @@
 
     <div class="infoBox" id="realEstateBox" style="display: none;">
         <div class="header">Buy Real Estate</div>
-        What type of Real Estate is this?
-        <table>
-            <tr>
-                <td>
-                    <input type="radio" name="realEstateType" value="House" checked> House<br>
-                    <input type="radio" name="realEstateType" value="Condo"> Condo<br>
-                    <input type="radio" name="realEstateType" value="Land"> Land
-                </td>
-                <td>
-                    Beds <input type="number" value="1" style="width: 50px;" id="realEstateBoxBeds"><br>
-                    Baths <input type="number" value="1" style="width: 50px;" id="realEstateBoxBaths">
-                </td>
-            </tr>
-        </table>
-
-        Down Payment: <input type="text" id="realEstateBoxDownPay"><br>
+        What type of Real Estate is this?<br>
+        <input type="radio" name="realEstateType" value="House 3Br/2Ba" checked> House 3Br/2Ba<br>
+        <input type="radio" name="realEstateType" value="Condo 2Br/1Ba"> Condo 2Br/1Ba<br>
+        <input type="radio" name="realEstateType" value="10 Acres Land"> 10 Acres Land<br>
+        <input type="radio" name="realEstateType" value="20 Acres Land"> 20 Acres Land<br>
+        <input type="radio" name="realEstateType" value="Duplex"> Duplex<br>
+        <input type="radio" name="realEstateType" value="4-Plex"> 4-Plex<br>
+        <input type="radio" name="realEstateType" value="8-Plex"> 8-Plex<br>
+        <input type="radio" name="realEstateType" value="Apartment 12 Units"> Apartment 12 Units<br>
+        <input type="radio" name="realEstateType" value="Apartment 24 Units"> Apartment 24 Units<br>
+        <input type="radio" name="realEstateType" value="Apartment 60 Units"> Apartment 60 Units<br>
+        Cost: <input type="text" id="realEstateBoxCost"><br>
         Mortgage: <input type="text" id="realEstateBoxMortgage"><br>
         Cash Flow: <input type="text" id="realEstateBoxCashFlow"><br>
-
         <button onclick="realEstateBoxClose()">Buy</button>
     </div>
 

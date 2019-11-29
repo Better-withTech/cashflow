@@ -42,34 +42,32 @@ function realEstateBoxEnter(e) {
 
 function realEstateBoxClose() {
     var type = realEstateBoxGetType();
-    var beds = document.getElementById('realEstateBoxBeds').value;
-    var baths = document.getElementById('realEstateBoxBaths').value;
-    var downPay = document.getElementById('realEstateBoxDownPay').value;
+    var cost = document.getElementById('realEstateBoxCost').value;
     var mortgage = document.getElementById('realEstateBoxMortgage').value;
     var cashflow = document.getElementById('realEstateBoxCashFlow').value;
 
-    if (downPay === '' || isNaN(downPay) || parseInt(downPay) < 0) {
-        alert('ERROR!\n\n\"' + downPay + '\" is not a valid input for Down Payment!');
-    } else if (mortgage === '' || isNaN(mortgage) || parseInt(mortgage) < 0) {
+    if (cost === '' || isNaN(cost) || parseInt(cost) < 0) {
+        alert('ERROR!\n\n\"' + cost + '\" is not a valid input for Cost!');
+    } else if (mortgage === '' || isNaN(mortgage) || parseInt(mortgage) < 0 || parseInt(mortgage) > parseInt(cost)) {
         alert('ERROR!\n\n\"' + mortgage + '\" is not a valid input for Mortgage!');
     } else if (cashflow === '' || isNaN(cashflow)) {
         alert('ERROR!\n\n\"' + cashflow + '\" is not a valid input for Cash Flow!');
     } else {
-        addRealEstate(type, beds, baths, downPay, mortgage, cashflow);
+        addRealEstate(type, cost, mortgage, cashflow);
 
         document.getElementById('realEstateBox').style.display = 'none';
-        document.getElementById('realEstateBoxBeds').value = '1';
-        document.getElementById('realEstateBoxBaths').value = '1';
-        document.getElementById('realEstateBoxDownPay').value = '';
+        document.getElementById('realEstateBoxCost').value = '';
         document.getElementById('realEstateBoxMortgage').value = '';
         document.getElementById('realEstateBoxCashFlow').value = '';
         document.removeEventListener('keydown', realEstateBoxEnter);
     }
 }
 
-function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
+function addRealEstate(type, cost, mortgage, cashflow) {
+    var downPay = parseInt(cost) - parseInt(mortgage);
+
     var savings = getAmount('savings');
-    savings -= parseInt(downPay);
+    savings -= downPay;
     setAmount('savings', savings);
 
     var realEstateIncome = getAmount('realEstateIncome');
@@ -85,15 +83,13 @@ function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
     var typeCol = document.createElement('td');
     typeCol.innerText = type;
 
-    var bedsCol = document.createElement('td');
-    bedsCol.innerText = beds;
+    var costCol = document.createElement('td');
+    costCol.setAttribute('class', 'money');
+    setAmount(costCol, parseInt(cost));
 
-    var bathsCol = document.createElement('td');
-    bathsCol.innerText = baths;
-
-    var incomeCol = document.createElement('td');
-    incomeCol.setAttribute('class', 'money');
-    setAmount(incomeCol, parseInt(cashflow));
+    var cashFlowCol = document.createElement('td');
+    cashFlowCol.setAttribute('class', 'money');
+    setAmount(cashFlowCol, parseInt(cashflow));
 
     var mortgageCol = document.createElement('td');
     mortgageCol.setAttribute('class', 'money');
@@ -102,41 +98,37 @@ function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
     var buttonCol = document.createElement('td');
     var button = document.createElement('button');
     button.addEventListener('click', () => {
-        removeRealEstate(row, type, beds, baths, mortgage, cashflow);
+        removeRealEstate(row, type, mortgage, cashflow);
     });
     button.innerText = 'Sell';
     buttonCol.appendChild(button);
 
     row.appendChild(typeCol);
-    row.appendChild(bedsCol);
-    row.appendChild(bathsCol);
-    row.appendChild(incomeCol);
+    row.appendChild(costCol);
     row.appendChild(mortgageCol);
+    row.appendChild(cashFlowCol);
     row.appendChild(buttonCol);
 
     realEstateTable.appendChild(row);
 }
 
-function removeRealEstate(element, type, beds, baths, mortgage, cashflow) {
+function removeRealEstate(element, type, mortgage, cashflow) {
     var infoBox = document.createElement('div');
     infoBox.setAttribute('class', 'infoBox');
 
     var header = document.createElement('div');
     header.setAttribute('class', 'header');
     header.innerText = 'Sell your ' + type;
-    if (type !== 'Land') {
-        header.innerText += ' ' + beds + 'Br/' + baths + 'Ba';
-    }
 
     var description = document.createElement('div');
-    description.innerText = 'How much do you sell it for?';
+    description.innerText = 'How much do you sell each unit for?';
 
     var input = document.createElement('input');
     input.setAttribute('type', 'text');
 
     var button = document.createElement('button');
     button.addEventListener('click', () => {
-        var isSuccessful = sellRealEstate(element, input.value, parseInt(mortgage), parseInt(cashflow));
+        var isSuccessful = sellRealEstate(element, input.value, type, parseInt(mortgage), parseInt(cashflow));
         if (isSuccessful) {
             document.body.removeChild(infoBox);
         }
@@ -151,13 +143,36 @@ function removeRealEstate(element, type, beds, baths, mortgage, cashflow) {
     document.body.appendChild(infoBox);
 }
 
-function sellRealEstate(element, sellAmount, mortgage, cashflow) {
+function sellRealEstate(element, sellAmount, type, mortgage, cashflow) {
     if (sellAmount === '' || isNaN(sellAmount) || sellAmount < 0) {
         alert('ERROR!\n\n\"' + sellAmount + '\" is not a valid input!');
 
         return false;
     } else {
+        var units = 1;
+        switch (type) {
+            case 'Duplex':
+                units = 2;
+                break;
+            case '4-Plex':
+                units = 4;
+                break;
+            case '8-Plex':
+                units = 8;
+                break;
+            case 'Apartment 12 Units':
+                units = 12;
+                break;
+            case 'Apartment 24 Units':
+                units = 24;
+                break;
+            case 'Apartment 60 Units':
+                units = 60;
+                break;
+        }
+
         sellAmount = parseInt(sellAmount);
+        sellAmount *= units;
         var proceeds = sellAmount - mortgage;
         var savings = getAmount('savings');
         savings += proceeds;

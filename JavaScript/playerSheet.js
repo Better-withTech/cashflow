@@ -1,5 +1,34 @@
 console.log('Player Sheet');
 
+function doodadsBoxOpen() {
+    document.getElementById('doodadsBox').style.display = 'block';
+    document.getElementById('doodadsBoxInput').focus();
+    document.addEventListener('keydown', doodadsBoxEnter);
+}
+
+function doodadsBoxEnter(e) {
+    if (e.code === 'Enter') {
+        doodadsBoxClose();
+    }
+}
+
+function doodadsBoxClose() {
+    var input = document.getElementById('doodadsBoxInput').value;
+
+    if (input === '' || isNaN(input) || parseInt(input) < 0) {
+        alert('ERROR!\n\n\"' + input + '\" is not a valid input!');
+    } else {
+        var amount = parseInt(input);
+        var savings = getAmount('savings');
+        savings -= amount;
+        setAmount('savings', savings);
+
+        document.getElementById('doodadsBox').style.display = 'none';
+        document.getElementById('doodadsBoxInput').value = '';
+        document.removeEventListener('keydown', doodadsBoxEnter);
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);

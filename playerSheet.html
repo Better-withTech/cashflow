@@ -32,7 +32,7 @@
     <div>
         <button onclick="getProfession()" id="professionButton">Get a Profession</button>
         <button onclick="payCheck()">Pay Check</button>
-        <button>Doodads</button>
+        <button onclick="doodadsBoxOpen()">Doodads</button>
         <button>Charity</button>
         <button>Baby</button>
         <button>Downsized</button>
@@ -189,6 +189,13 @@
             </tr>
         </table>
     </span>
+
+    <div class="infoBox" id="doodadsBox" style="display: none;">
+        <div class="header">Doodads</div>
+        How much is your doodad?
+        <input type="text" id="doodadsBoxInput">
+        <button onclick="doodadsBoxClose()">Submit</button>
+    </div>
 </body>
 
 <script src="JavaScript/professions.js"></script>

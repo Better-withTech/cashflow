@@ -10,11 +10,11 @@
     <table>
         <tr>
             <td>Profession:</td>
-            <td>Unemployed</td>
+            <td id="professionTitle">Unemployed</td>
         </tr>
         <tr>
             <td>Savings:</td>
-            <td>$0</td>
+            <td class="money" id="savings">$0</td>
         </tr>
         <tr>
             <td>Cashflow:</td>
@@ -26,11 +26,11 @@
             <td>Number of Children:</td>
             <td>0</td>
             <td>Per Child Expense:</td>
-            <td>$0</td>
+            <td class="money" id="perChildExpense">$0</td>
         </tr>
     </table>
     <div>
-        <button>Get a Profession</button>
+        <button onclick="getProfession()" id="professionButton">Get a Profession</button>
         <button>Pay Check</button>
         <button>Doodads</button>
         <button>Charity</button>
@@ -43,7 +43,7 @@
         <table>
             <tr>
                 <td>Salary:</td>
-                <td>$0</td>
+                <td class="money" id="salary">$0</td>
             </tr>
             <tr>
                 <td>Interest:</td>
@@ -79,31 +79,31 @@
         <table>
             <tr>
                 <td>Taxes:</td>
-                <td>$0</td>
+                <td class="money" id="taxExpense">$0</td>
             </tr>
             <tr>
                 <td>Home Mortgage:</td>
-                <td>$0</td>
+                <td class="money" id="housingExpense">$0</td>
             </tr>
             <tr>
                 <td>School Loan Payment:</td>
-                <td>$0</td>
+                <td class="money" id="schoolExpense">$0</td>
             </tr>
             <tr>
                 <td>Car Payment:</td>
-                <td>$0</td>
+                <td class="money" id="carExpense">$0</td>
             </tr>
             <tr>
                 <td>Credit Card Payment:</td>
-                <td>$0</td>
+                <td class="money" id="creditCardExpense">$0</td>
             </tr>
             <tr>
                 <td>Retail Payment:</td>
-                <td>$0</td>
+                <td class="money" id="retailExpense">$0</td>
             </tr>
             <tr>
                 <td>Other Expenses:</td>
-                <td>$0</td>
+                <td class="money" id="otherExpense">$0</td>
             </tr>
             <tr>
                 <td>Child Expenses:</td>
@@ -159,27 +159,27 @@
         <table>
             <tr>
                 <td>Home Mortgage:</td>
-                <td>$0</td>
+                <td class="money" id="housingLiability">$0</td>
                 <td><button>Pay</button></td>
             </tr>
             <tr>
                 <td>School Loans:</td>
-                <td>$0</td>
+                <td class="money" id="schoolLiability">$0</td>
                 <td><button>Pay</button></td>
             </tr>
             <tr>
                 <td>Car Loans:</td>
-                <td>$0</td>
+                <td class="money" id="carLiability">$0</td>
                 <td><button>Pay</button></td>
             </tr>
             <tr>
                 <td>Credit Cards:</td>
-                <td>$0</td>
+                <td class="money" id="creditCardLiability">$0</td>
                 <td><button>Pay</button></td>
             </tr>
             <tr>
                 <td>Retail Debt:</td>
-                <td>$0</td>
+                <td class="money" id="retailLiability">$0</td>
                 <td><button>Pay</button></td>
             </tr>
             <tr>
@@ -191,6 +191,7 @@
     </span>
 </body>
 
+<script src="JavaScript/professions.js"></script>
 <script src="JavaScript/playerSheet.js"></script>
 
 </html>

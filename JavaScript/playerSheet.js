@@ -101,6 +101,9 @@ function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
 
     var buttonCol = document.createElement('td');
     var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        removeRealEstate(row, type, beds, baths, mortgage, cashflow);
+    });
     button.innerText = 'Sell';
     buttonCol.appendChild(button);
 
@@ -112,6 +115,64 @@ function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
     row.appendChild(buttonCol);
 
     realEstateTable.appendChild(row);
+}
+
+function removeRealEstate(element, type, beds, baths, mortgage, cashflow) {
+    var infoBox = document.createElement('div');
+    infoBox.setAttribute('class', 'infoBox');
+
+    var header = document.createElement('div');
+    header.setAttribute('class', 'header');
+    header.innerText = 'Sell your ' + type;
+    if (type !== 'Land') {
+        header.innerText += ' ' + beds + 'Br/' + baths + 'Ba';
+    }
+
+    var description = document.createElement('div');
+    description.innerText = 'How much do you sell it for?';
+
+    var input = document.createElement('input');
+    input.setAttribute('type', 'text');
+
+    var button = document.createElement('button');
+    button.addEventListener('click', () => {
+        var isSuccessful = sellRealEstate(element, input.value, parseInt(mortgage), parseInt(cashflow));
+        if (isSuccessful) {
+            document.body.removeChild(infoBox);
+        }
+    });
+    button.innerText = 'Sell';
+
+    infoBox.appendChild(header);
+    infoBox.appendChild(description);
+    infoBox.appendChild(input);
+    infoBox.appendChild(button);
+
+    document.body.appendChild(infoBox);
+}
+
+function sellRealEstate(element, sellAmount, mortgage, cashflow) {
+    if (sellAmount === '' || isNaN(sellAmount) || sellAmount < 0) {
+        alert('ERROR!\n\n\"' + sellAmount + '\" is not a valid input!');
+
+        return false;
+    } else {
+        sellAmount = parseInt(sellAmount);
+        var proceeds = sellAmount - mortgage;
+        var savings = getAmount('savings');
+        savings += proceeds;
+        setAmount('savings', savings);
+
+        var realEstateIncome = getAmount('realEstateIncome');
+        realEstateIncome -= cashflow;
+        setAmount('realEstateIncome', realEstateIncome);
+
+        recalculate();
+
+        element.style.display = 'none';
+
+        return true;
+    }
 }
 
 function realEstateBoxGetType() {

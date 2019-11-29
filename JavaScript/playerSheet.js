@@ -29,6 +29,101 @@ function doodadsBoxClose() {
     }
 }
 
+function realEstateBoxOpen() {
+    document.getElementById('realEstateBox').style.display = 'block';
+    document.addEventListener('keydown', realEstateBoxEnter);
+}
+
+function realEstateBoxEnter(e) {
+    if (e.code === 'Enter') {
+        realEstateBoxClose();
+    }
+}
+
+function realEstateBoxClose() {
+    var type = realEstateBoxGetType();
+    var beds = document.getElementById('realEstateBoxBeds').value;
+    var baths = document.getElementById('realEstateBoxBaths').value;
+    var downPay = document.getElementById('realEstateBoxDownPay').value;
+    var mortgage = document.getElementById('realEstateBoxMortgage').value;
+    var cashflow = document.getElementById('realEstateBoxCashFlow').value;
+
+    if (downPay === '' || isNaN(downPay) || parseInt(downPay) < 0) {
+        alert('ERROR!\n\n\"' + downPay + '\" is not a valid input for Down Payment!');
+    } else if (mortgage === '' || isNaN(mortgage) || parseInt(mortgage) < 0) {
+        alert('ERROR!\n\n\"' + mortgage + '\" is not a valid input for Mortgage!');
+    } else if (cashflow === '' || isNaN(cashflow)) {
+        alert('ERROR!\n\n\"' + cashflow + '\" is not a valid input for Cash Flow!');
+    } else {
+        addRealEstate(type, beds, baths, downPay, mortgage, cashflow);
+
+        document.getElementById('realEstateBox').style.display = 'none';
+        document.getElementById('realEstateBoxBeds').value = '1';
+        document.getElementById('realEstateBoxBaths').value = '1';
+        document.getElementById('realEstateBoxDownPay').value = '';
+        document.getElementById('realEstateBoxMortgage').value = '';
+        document.getElementById('realEstateBoxCashFlow').value = '';
+        document.removeEventListener('keydown', realEstateBoxEnter);
+    }
+}
+
+function addRealEstate(type, beds, baths, downPay, mortgage, cashflow) {
+    var savings = getAmount('savings');
+    savings -= parseInt(downPay);
+    setAmount('savings', savings);
+
+    var realEstateIncome = getAmount('realEstateIncome');
+    realEstateIncome += parseInt(cashflow);
+    setAmount('realEstateIncome', realEstateIncome);
+
+    recalculate();
+
+    var realEstateTable = document.getElementById('realEstateTable');
+
+    var row = document.createElement('tr');
+
+    var typeCol = document.createElement('td');
+    typeCol.innerText = type;
+
+    var bedsCol = document.createElement('td');
+    bedsCol.innerText = beds;
+
+    var bathsCol = document.createElement('td');
+    bathsCol.innerText = baths;
+
+    var incomeCol = document.createElement('td');
+    incomeCol.setAttribute('class', 'money');
+    setAmount(incomeCol, parseInt(cashflow));
+
+    var mortgageCol = document.createElement('td');
+    mortgageCol.setAttribute('class', 'money');
+    setAmount(mortgageCol, parseInt(mortgage));
+
+    var buttonCol = document.createElement('td');
+    var button = document.createElement('button');
+    button.innerText = 'Sell';
+    buttonCol.appendChild(button);
+
+    row.appendChild(typeCol);
+    row.appendChild(bedsCol);
+    row.appendChild(bathsCol);
+    row.appendChild(incomeCol);
+    row.appendChild(mortgageCol);
+    row.appendChild(buttonCol);
+
+    realEstateTable.appendChild(row);
+}
+
+function realEstateBoxGetType() {
+    var choices = document.getElementsByName('realEstateType');
+
+    for (var choice of choices) {
+        if (choice.checked) {
+            return choice.value;
+        }
+    }
+}
+
 function getAmount(id) {
     var text = document.getElementById(id).innerText;
     text = text.substring(1);
@@ -39,7 +134,8 @@ function getAmount(id) {
 
 function setAmount(id, amount) {
     amount = amount.toLocaleString();
-    document.getElementById(id).innerText = '$' + amount;
+    var element = id instanceof Element ? id : document.getElementById(id);
+    element.innerText = '$' + amount;
 }
 
 function recalculate() {

@@ -124,13 +124,14 @@
     </span>
     <span class="section">
         <div class="header">Real Estate</div>
-        <table>
+        <table id="realEstateTable">
             <tr>
                 <td>Type</td>
                 <td>Beds</td>
                 <td>Baths</td>
                 <td>Income</td>
-                <td><button>Buy</button></td>
+                <td>Mortgage</td>
+                <td><button onclick="realEstateBoxOpen()">Buy</button></td>
             </tr>
         </table>
     </span>
@@ -192,9 +193,33 @@
 
     <div class="infoBox" id="doodadsBox" style="display: none;">
         <div class="header">Doodads</div>
-        How much is your doodad?
-        <input type="text" id="doodadsBoxInput">
+        How much is your doodad?<br>
+        <input type="text" id="doodadsBoxInput"><br>
         <button onclick="doodadsBoxClose()">Submit</button>
+    </div>
+
+    <div class="infoBox" id="realEstateBox" style="display: none;">
+        <div class="header">Buy Real Estate</div>
+        What type of Real Estate is this?
+        <table>
+            <tr>
+                <td>
+                    <input type="radio" name="realEstateType" value="House" checked> House<br>
+                    <input type="radio" name="realEstateType" value="Condo"> Condo<br>
+                    <input type="radio" name="realEstateType" value="Land"> Land
+                </td>
+                <td>
+                    Beds <input type="number" value="1" style="width: 50px;" id="realEstateBoxBeds"><br>
+                    Baths <input type="number" value="1" style="width: 50px;" id="realEstateBoxBaths">
+                </td>
+            </tr>
+        </table>
+
+        Down Payment: <input type="text" id="realEstateBoxDownPay"><br>
+        Mortgage: <input type="text" id="realEstateBoxMortgage"><br>
+        Cash Flow: <input type="text" id="realEstateBoxCashFlow"><br>
+
+        <button onclick="realEstateBoxClose()">Buy</button>
     </div>
 </body>
 

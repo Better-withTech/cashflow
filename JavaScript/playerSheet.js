@@ -490,6 +490,13 @@ function charity() {
     setAmount('savings', savings);
 }
 
+function downsized() {
+    var totalExpenses = getAmount('totalExpenses');
+    var savings = getAmount('savings');
+    savings -= totalExpenses;
+    setAmount('savings', savings);
+}
+
 function addBankLoan() {
     var savings = getAmount('savings');
     savings += 1000;

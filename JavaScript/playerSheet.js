@@ -482,6 +482,14 @@ function haveBaby() {
     }
 }
 
+function charity() {
+    var totalIncome = getAmount('totalIncome');
+    var charityCost = Math.floor(0.1 * totalIncome);
+    var savings = getAmount('savings');
+    savings -= charityCost;
+    setAmount('savings', savings);
+}
+
 function addBankLoan() {
     var savings = getAmount('savings');
     savings += 1000;
